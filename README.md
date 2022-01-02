@@ -1,4 +1,9 @@
-<<<<<<< HEAD
+# currency-converter-api
+React API Project. Currency converter.  
+
+Shamsur Raza Chowdhury 
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -69,7 +74,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
-# currency-converter-api
-React API Project. Currency converter.  
->>>>>>> 2f8ff7a19fe1d993963331b590af10198a9905ff
+
