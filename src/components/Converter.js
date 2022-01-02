@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import DisplayExchangeRate from "./DisplayExchangeRate";
 import axios from "axios";
+
 function Converter() {
   const [currencies, setCurrencies] = useState({});
   const [fromCurr, setFromCurr] = useState("Afghan afghani");
@@ -8,7 +9,8 @@ function Converter() {
   const [amount, setAmount] = useState(0);
   const [convertedAmount, setConvertedAmount] = useState(0);
 
-  const key = "15d740da79491ba97eb0247056657ffe4c785dbd";
+  //const key = "091ddf555e7419eb35f78529bf312f4ed648f88e";
+
   useEffect(() => {
     const listURL = `https://api.getgeoapi.com/v2/currency/list?api_key=${key}&format=json`;
     axios
@@ -23,14 +25,21 @@ function Converter() {
   }, []);
 
   const convert = () => {
-    const fromCurrCode= Object.keys(currencies).find(key => currencies[key] === fromCurr)
-    const toCurrCode= Object.keys(currencies).find(key => currencies[key] === toCurr)
+    const fromCurrCode = Object.keys(currencies).find(
+      (key) => currencies[key] === fromCurr
+    );
+    const toCurrCode = Object.keys(currencies).find(
+      (key) => currencies[key] === toCurr
+    );
     const conversionURL = `https://api.getgeoapi.com/v2/currency/convert?api_key=${key}&from=${fromCurrCode}&to=${toCurrCode}&amount=${amount}&format=json`;
-    console.log(conversionURL)
+    console.log(conversionURL);
     axios
       .get(`${conversionURL}`)
       .then((response) => {
-        console.log(response.data);
+        console.log(response.data.rates[`${toCurrCode}`]["rate_for_amount"]);
+        setConvertedAmount(
+          response.data.rates[`${toCurrCode}`]["rate_for_amount"]
+        );
       })
       .catch((error) => {
         console.log("error while conversion is " + error);
