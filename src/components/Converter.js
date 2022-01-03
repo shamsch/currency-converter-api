@@ -5,11 +5,11 @@ import axios from "axios";
 function Converter() {
   const [currencies, setCurrencies] = useState({});
   const [fromCurr, setFromCurr] = useState("Afghan afghani");
-  const [toCurr, setToCurr] = useState("Afghan afghani");
+  const [toCurr, setToCurr] = useState("Zimbabwean dollar");
   const [amount, setAmount] = useState(0);
   const [convertedAmount, setConvertedAmount] = useState(0);
 
-  //const key = "091ddf555e7419eb35f78529bf312f4ed648f88e";
+  const key = "091ddf555e7419eb35f78529bf312f4ed648f88e";
 
   useEffect(() => {
     const listURL = `https://api.getgeoapi.com/v2/currency/list?api_key=${key}&format=json`;
@@ -71,9 +71,13 @@ function Converter() {
                 >
                   {Object.values(currencies)
                     .sort()
-                    .map((curr, _index) => (
-                      <option key={_index}>{curr}</option>
-                    ))}
+                    .map((curr, _index) =>
+                      curr !== toCurr ? (
+                        <option key={_index}>{curr}</option>
+                      ) : (
+                        null
+                      )
+                    )}
                 </select>
               </td>
             </tr>
@@ -96,9 +100,13 @@ function Converter() {
                 >
                   {Object.values(currencies)
                     .sort()
-                    .map((curr, _index) => (
-                      <option key={_index}>{curr}</option>
-                    ))}
+                    .map((curr, _index) =>
+                      curr !== fromCurr ? (
+                        <option key={_index}>{curr}</option>
+                      ) : (
+                        null
+                      )
+                    )}
                 </select>
               </td>
             </tr>
