@@ -4,13 +4,13 @@ import axios from "axios";
 
 function Converter() {
   const [currencies, setCurrencies] = useState({});
-  const [fromCurr, setFromCurr] = useState("Afghan afghani");
-  const [toCurr, setToCurr] = useState("Zimbabwean dollar");
+  const [fromCurr, setFromCurr] = useState("Euro");
+  const [toCurr, setToCurr] = useState("Bangladeshi taka");
   const [amount, setAmount] = useState(0);
   const [convertedAmount, setConvertedAmount] = useState(0);
 
-  const key = "091ddf555e7419eb35f78529bf312f4ed648f88e";
-
+ // const key = '091ddf555e7419eb35f78529bf312f4ed648f88e'
+  
   useEffect(() => {
     const listURL = `https://api.getgeoapi.com/v2/currency/list?api_key=${key}&format=json`;
     axios
@@ -116,7 +116,7 @@ function Converter() {
           Convert
         </button>
       </div>
-      <DisplayExchangeRate />
+      <DisplayExchangeRate rate={0} fromCurr={fromCurr} toCurr={toCurr}/>
     </div>
   );
 }
