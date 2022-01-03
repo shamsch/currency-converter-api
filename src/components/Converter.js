@@ -8,8 +8,9 @@ function Converter() {
   const [toCurr, setToCurr] = useState("Bangladeshi taka");
   const [amount, setAmount] = useState(0);
   const [convertedAmount, setConvertedAmount] = useState(0);
+  const [conversionFactor, setConversionFactor]= useState(0);
 
- // const key = '091ddf555e7419eb35f78529bf312f4ed648f88e'
+  const key = '091ddf555e7419eb35f78529bf312f4ed648f88e'
   
   useEffect(() => {
     const listURL = `https://api.getgeoapi.com/v2/currency/list?api_key=${key}&format=json`;
@@ -36,7 +37,8 @@ function Converter() {
     axios
       .get(`${conversionURL}`)
       .then((response) => {
-        console.log(response.data.rates[`${toCurrCode}`]["rate_for_amount"]);
+        //console.log(response.data.rates[`${toCurrCode}`]["rate_for_amount"]);
+        setConversionFactor(response.data.rates[`${toCurrCode}`]["rate"])
         setConvertedAmount(
           response.data.rates[`${toCurrCode}`]["rate_for_amount"]
         );
@@ -116,7 +118,7 @@ function Converter() {
           Convert
         </button>
       </div>
-      <DisplayExchangeRate rate={0} fromCurr={fromCurr} toCurr={toCurr}/>
+      <DisplayExchangeRate rate={conversionFactor} fromCurr={fromCurr} toCurr={toCurr}/>
     </div>
   );
 }
