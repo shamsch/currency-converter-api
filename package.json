@@ -1,6 +1,7 @@
 {
   "name": "api",
   "version": "0.1.0",
+  "homepage" : "http://shamsch.github.io/currency-converter-api",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.1",
