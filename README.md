@@ -1,6 +1,9 @@
 # currency-converter-api
 React API Project. Currency converter.  
+
 API Documentation https://currency.getgeoapi.com/documentation/
+
+Live deployment https://shamsch.github.io/currency-converter-api/
 
 Regards, 
 Shamsur Raza Chowdhury 
