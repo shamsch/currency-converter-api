@@ -1,6 +1,6 @@
 /*I am bad wtih CSS, welp! */
 
-.converter
+/* .converter
 {
     display: flex;
     background-color: aqua;
@@ -16,11 +16,11 @@
     width: 100%;
     background-color: blueviolet;
     height: 100%
-}
+} */
 
 
 
-/* Button CSS */
+/* Button CSS
 .convert-btn {
   background-color: #EA4C89;
   border-radius: 8px;
@@ -51,4 +51,4 @@
 .convert-btn:hover,
 .convert-btn:focus {
   background-color: #F082AC;
-}
+} */
