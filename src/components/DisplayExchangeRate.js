@@ -2,9 +2,9 @@
 function DisplayExchangeRate(props) {
   let {toCurr, fromCurr, rate} = props
   return (
-    <div className="exchange-rate">
-      { rate? <h1>1 {fromCurr} is {rate} {toCurr}</h1> : <h1>Exchange rate for one unit will be displayed here</h1> } 
-    </div>
+    <>
+      { rate? <p>1 {fromCurr} is {rate} {toCurr}</p> : <p>Exchange rate for one unit will be displayed here</p> } 
+    </>
   );
 }
 

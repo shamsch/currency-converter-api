@@ -1,20 +1,31 @@
 import { useState, useEffect } from "react";
-import DisplayExchangeRate from "./DisplayExchangeRate";
+import {
+  fixAmount,
+  fixConversionFacotr,
+  fixConvertedAmount,
+  fixFromCurr,
+  fixToCurr,
+} from "../Reducer/dataReducer";
 import axios from "axios";
 
+import { Button } from "@mui/material";
+import { useDispatch } from "react-redux";
+
 function Converter() {
+  //dispatch
+  const dispatch = useDispatch();
   //states
   const [currencies, setCurrencies] = useState({});
   const [fromCurr, setFromCurr] = useState("Euro");
   const [toCurr, setToCurr] = useState("Bangladeshi taka");
   const [amount, setAmount] = useState(0);
   const [convertedAmount, setConvertedAmount] = useState(0);
-  const [conversionFactor, setConversionFactor]= useState(0);
+  const [conversionFactor, setConversionFactor] = useState(0);
 
   //api key, i should have kept it in a .env file, but wont be hidden really so i didn't bother
-  const key = '091ddf555e7419eb35f78529bf312f4ed648f88e'
-  
-  //this react hook allows for side loading the following block of code every time any part of the page is rerendered 
+  const key = "091ddf555e7419eb35f78529bf312f4ed648f88e";
+
+  //this react hook allows for side loading the following block of code every time any part of the page is rerendered
   useEffect(() => {
     const listURL = `https://api.getgeoapi.com/v2/currency/list?api_key=${key}&format=json`;
     axios
@@ -29,7 +40,10 @@ function Converter() {
   }, []);
 
   //this function is triggered when the convert button is pressed
-  const convert = () => {
+  const convert = async () => {
+    dispatch(fixToCurr(toCurr));
+    dispatch(fixFromCurr(fromCurr));
+    dispatch(fixAmount(amount));
     const fromCurrCode = Object.keys(currencies).find(
       (key) => currencies[key] === fromCurr
     );
@@ -37,24 +51,16 @@ function Converter() {
       (key) => currencies[key] === toCurr
     );
     const conversionURL = `https://api.getgeoapi.com/v2/currency/convert?api_key=${key}&from=${fromCurrCode}&to=${toCurrCode}&amount=${amount}&format=json`;
-    console.log(conversionURL);
-    axios
-      .get(`${conversionURL}`)
-      .then((response) => {
-        //console.log(response.data.rates[`${toCurrCode}`]["rate_for_amount"]);
-        setConversionFactor(response.data.rates[`${toCurrCode}`]["rate"])
-        setConvertedAmount(
-          response.data.rates[`${toCurrCode}`]["rate_for_amount"]
-        );
-      })
-      .catch((error) => {
-        console.log("error while conversion is " + error);
-      });
+    // console.log(conversionURL);
+    const res = await axios.get(`${conversionURL}`);
+    setConversionFactor(res.data.rates[`${toCurrCode}`]["rate"]);
+    dispatch(fixConversionFacotr(res.data.rates[`${toCurrCode}`]["rate"]));
+    setConvertedAmount(res.data.rates[`${toCurrCode}`]["rate_for_amount"]);
+    dispatch(fixConvertedAmount(res.data.rates[`${toCurrCode}`]["rate_for_amount"]));
   };
 
   return (
-    <div className="converter">
-      <h1>Convert currency!</h1>
+    <>
       <div className="input-area">
         <table>
           <tbody>
@@ -74,8 +80,8 @@ function Converter() {
                   value={fromCurr}
                   name="from-curr-options"
                   onChange={(e) => {
-                    setFromCurr(e.target.value)
-                    setConversionFactor(0)
+                    setFromCurr(e.target.value);
+                    setConversionFactor(0);
                   }}
                 >
                   {Object.values(currencies)
@@ -83,9 +89,7 @@ function Converter() {
                     .map((curr, _index) =>
                       curr !== toCurr ? (
                         <option key={_index}>{curr}</option>
-                      ) : (
-                        null
-                      )
+                      ) : null
                     )}
                 </select>
               </td>
@@ -106,8 +110,8 @@ function Converter() {
                   value={toCurr}
                   name="to-curr-options"
                   onChange={(e) => {
-                    setToCurr(e.target.value)
-                    setConversionFactor(0)
+                    setToCurr(e.target.value);
+                    setConversionFactor(0);
                   }}
                 >
                   {Object.values(currencies)
@@ -115,21 +119,19 @@ function Converter() {
                     .map((curr, _index) =>
                       curr !== fromCurr ? (
                         <option key={_index}>{curr}</option>
-                      ) : (
-                        null
-                      )
+                      ) : null
                     )}
                 </select>
               </td>
             </tr>
           </tbody>
         </table>
-        <button className="convert-btn" onClick={convert}>
+
+        <Button variant="contained" color="success" onClick={convert}>
           Convert
-        </button>
+        </Button>
       </div>
-      <DisplayExchangeRate rate={conversionFactor} fromCurr={fromCurr} toCurr={toCurr}/>
-    </div>
+    </>
   );
 }
 
